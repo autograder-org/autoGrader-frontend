@@ -1,4 +1,4 @@
-**Title:** Automated Assignment Grading System with AI Model Evaluation
+# Automated Assignment Grading System with AI Model Evaluation
 
 **Objective:**
 - Develop an automated assignment grading system to reduce manual grading fatigue and improve efficiency.
@@ -49,3 +49,7 @@
 - An operational automated grading system that enhances grading efficiency and consistency.
 - Insights into the effectiveness and reliability of different AI models in the educational grading context.
 
+## Detailed Documentation
+
+1. [Initial Idea Expansion](./Documents/Initial_Ideation_Expansion.md)
+2. [Integration of RAG](./Documents/Integration_of_rag.md)
