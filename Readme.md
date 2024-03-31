@@ -53,3 +53,4 @@
 
 1. [Initial Idea Expansion](./Documents/Initial_Ideation_Expansion.md)
 2. [Integration of RAG](./Documents/Integration_of_rag.md)
+3. [Ethical Implications](./Documents/Ethical_Implications.md)
