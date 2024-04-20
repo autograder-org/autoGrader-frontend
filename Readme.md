@@ -51,4 +51,4 @@
 
 ## Detailed Documentation
 
-Check out the project [Wik](https://github.com/parthasarathydNU/autoGrader/wiki) and [list of issues](https://github.com/parthasarathydNU/autoGrader/issues) for more context.
+Check out the project [Wiki](https://github.com/parthasarathydNU/autoGrader/wiki) and [list of issues](https://github.com/parthasarathydNU/autoGrader/issues) for more context.
