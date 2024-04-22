@@ -51,6 +51,5 @@
 
 ## Detailed Documentation
 
-1. [Initial Idea Expansion](./Documents/Initial_Ideation_Expansion.md)
-2. [Integration of RAG](./Documents/Integration_of_rag.md)
-3. [Ethical Implications](./Documents/Ethical_Implications.md)
+- Check out the project [Wiki](https://github.com/parthasarathydNU/autoGrader/wiki) and [list of issues](https://github.com/parthasarathydNU/autoGrader/issues) for more context.
+- Check out [CONTRIBUTING.md](https://github.com/parthasarathydNU/autoGrader/blob/main/CONTRIBUTING.md) for contribution guidelines
