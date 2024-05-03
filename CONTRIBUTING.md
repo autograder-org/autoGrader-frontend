@@ -2,6 +2,28 @@
 
 Welcome to the AutoGrader project! We are excited to have you onboard and look forward to your contributions. This document outlines the procedures and standards we follow to keep our codebase maintainable and our community welcoming.
 
+## How to Contribute
+
+To get started:
+1. Fork the repository.
+2. Clone your forked repository.
+3. Create a new branch for your feature.
+4. Make your changes.
+5. Push your branch and create a pull request.
+6. Once the PR is merged, update your clone with the latest code and the proceed ( Trying to push code through a PR without updating your fork will result in Merge conflicts )
+   
+## Branching Strategy
+
+- Use feature branches off the main branch. Name feature branches related to the feature and issue number, e.g., `issue_number-feature-name`.
+- Do not commit directly to the main branch - ALWAYS PUSH YOUR CHANGES THROUGH PRS
+
+## Code Reviews
+
+All submissions require a code review to ensure quality:
+- Request a review from at least one maintainer.
+- Address feedback promptly.
+- Reviewers, provide constructive feedback with a focus on growth and learning.
+- 
 ## Code Standards
 
 1. **Coding Style**: We follow [specify coding style, e.g., PEP-8 for Python, Google Java Style for Java].
@@ -55,18 +77,6 @@ Describe what actually happened. Include screenshots, if applicable.
 Add any other context about the problem here.
 ```
 
-## Branching Strategy
-
-- Use feature branches off the main branch. Name feature branches related to the feature and issue number, e.g., `issue_number-feature-name`.
-- Do not commit directly to the main branch - ALWAYS PUSH YOUR CHANGES THROUGH PRS
-
-## Code Reviews
-
-All submissions require a code review to ensure quality:
-- Request a review from at least one maintainer.
-- Address feedback promptly.
-- Reviewers, provide constructive feedback with a focus on growth and learning.
-
 ## Community and Communication
 
 We value respect and constructive communication:
@@ -74,14 +84,6 @@ We value respect and constructive communication:
 - Be supportive and helpful to fellow contributors.
 - Participate in discussions and planning.
 
-## How to Contribute
 
-To get started:
-1. Fork the repository.
-2. Clone your forked repository.
-3. Create a new branch for your feature.
-4. Make your changes.
-5. Push your branch and create a pull request.
-6. Once the PR is merged, update your clone with the latest code and the proceed ( Trying to push code through a PR without updating your fork will result in Merge conflicts )
 
 Thank you for contributing to AutoGrader! Your efforts help us build a better project together.
