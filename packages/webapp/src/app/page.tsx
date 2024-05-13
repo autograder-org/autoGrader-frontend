@@ -1,6 +1,109 @@
+"use client";
+
 import Image from "next/image";
+import React, { useState, useEffect } from 'react';
+import OpenAI from 'openai';
+
+export const runtime = 'edge';
+
+interface SystemMessage {
+  role: 'system';
+  content: string;
+}
+
+interface UserMessage {
+  role: 'user';
+  content: string;
+}
+
+interface AssistantMessage {
+  role: 'assistant';
+  content: string;
+}
+
+interface FunctionMessage {
+  role: 'function';
+  content: string;
+  name: string;
+}
+
+type ChatMessage = SystemMessage | UserMessage | AssistantMessage | FunctionMessage;
+
+const flipped_interaction_prompt = "You are an expert in rubric generation for any given type of assignment. Once a user " +
+    "submits an assignment, use the flipped interaction pattern to ask the user questions " +
+    "about their grading preferences, which areas of the assignment that they want greater " +
+    "emphasis on. The conversation should be engaging to the user. The questions can be " +
+    "regarding: Their style of grading , how strict do they want to be and other questions " +
+    "to arrive at a well defined and clear grading schema without any ambiguity. Further ask " +
+    "questions regarding the user to understand more about their personal as well. Finally " +
+    "based on the gathered preferences, use the persona pattern to take the persona of the " +
+    "user and generate a rubric that matches their style. Start by greeting the user and ask " +
+    "one question at a time. Ask the first question about what is the type of assignment " +
+    "they want help with.";
 
 export default function Home() {
+
+  const [apiKey, setApiKey] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchApiKey = async () => {
+      const response = await fetch('/api/openai');
+      const data = await response.json();
+      setApiKey(data.apiKey);
+    };
+
+    fetchApiKey();
+  }, []);
+
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    { role: 'system', content: flipped_interaction_prompt },
+  ]);
+  const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false); // To show loading indicator
+
+  // const openai = new OpenAI({
+  //   apiKey: process.env.REACT_APP_OPENAI_API_KEY,
+  //   dangerouslyAllowBrowser: true
+  // });
+
+  const openai = apiKey ? new OpenAI({
+    apiKey: apiKey,
+    dangerouslyAllowBrowser: true
+  }) : null;
+
+  const handleSubmit = async () => {
+    if (!input.trim()) return; // Don't send empty messages
+
+    setLoading(true);
+
+    const userMessage: UserMessage = { role: 'user', content: input };
+    const newMessages = [...messages, userMessage];
+    setMessages(newMessages);  // Update messages state (part 1)
+    setInput('');
+
+    console.log("User Input:", input); // Log user input
+    console.log("Messages before update:", messages);
+    try {
+      const response = await openai.chat.completions.create({
+        model: 'gpt-4',
+        messages: newMessages,
+      });
+
+      console.log("Response from OpenAI:", response);
+
+      const assistantMessage: AssistantMessage = {
+        role: 'assistant',
+        content: response.choices[0].message?.content || '',
+      };
+      setMessages(prevMessages => [...prevMessages, assistantMessage]);  // Update messages state (part 2)
+    } catch (error) {
+      console.error('OpenAI API Error:', error);
+      // ... (error handling)
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
@@ -26,6 +129,40 @@ export default function Home() {
             />
           </a>
         </div>
+      </div>
+
+      <div>
+        <div>
+          {messages.map((msg, index) => {
+            if (msg.role === 'function') {
+              const functionMessage = msg as FunctionMessage; // Type assertion for function messages
+              return (
+                  <div key={index} className={msg.role}>
+                    {functionMessage.content} (Function Name: {functionMessage.name})
+                  </div>
+              );
+            } else {
+              return (
+                  <div key={index} className={msg.role}>
+                    {msg.content}
+                  </div>
+              );
+            }
+          })}
+          {loading && <div>Loading...</div>}
+        </div>
+        <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+          <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              disabled={loading}
+              placeholder="Type your message..."
+          />
+          <button type="submit" disabled={loading}>
+            {loading ? 'Sending...' : 'Send'}
+          </button>
+        </form>
       </div>
 
       <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
