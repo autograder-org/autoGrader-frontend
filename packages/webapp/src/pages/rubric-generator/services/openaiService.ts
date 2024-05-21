@@ -1,4 +1,7 @@
 import { NextResponse } from 'next/server';
+import OpenAI from 'openai';
+import { ChatMessage } from '../types/ChatMessage';
+
 
 export async function GET() {
   // Access the environment variable securely on the server-side
