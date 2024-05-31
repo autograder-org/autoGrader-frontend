@@ -10,9 +10,9 @@ const nextConfig = {
     config.resolve.alias['@'] = path.join(process.cwd(), 'src');
     return config;
   },
-  experimental: {
-    appDir: true,
-  },
+  // experimental: {
+  //   appDir: true,
+  // },
 };
 
 export default nextConfig;

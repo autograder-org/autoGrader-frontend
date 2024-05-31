@@ -1,10 +1,10 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faRobot } from '@fortawesome/free-solid-svg-icons';
-import { ChatMessage } from '../types/ChatMessage';
+import { ChatMessage as ChatMessageType } from '@/lib/chatbot/ChatMessage';
 
 interface ChatMessageProps {
-  message: ChatMessage;
+  message: ChatMessageType;
 }
 
 const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
