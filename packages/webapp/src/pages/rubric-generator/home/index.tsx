@@ -6,7 +6,6 @@ import '../../../styles/globals.css';
 import '../../../styles/home.css';
 import '@/components/chatbot/ChatMessage';
 import '@/components/chatbot/ChatInput';
-import { ChatMessage } from '@/lib/chatbot/ChatMessage';
 import useChat from "../../../lib/chatbot/MessageHandler";
 
 export const runtime = 'experimental-edge';
@@ -27,7 +26,6 @@ const assistant_greeting = "Hello! I'm here to help you create a customized rubr
     "To start off, could you please tell me what type of assignment you need the rubric for? " +
     "For example, is it an essay, a presentation, a project, or something else?"
 
-
 export default function Home() {
   const { input, loading, messages, handleSubmit, setInput } = useChat(prompt, assistant_greeting);
 
@@ -37,46 +35,48 @@ export default function Home() {
   };
 
   return (
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
-        <div>
-          <div className="header"><h2 className="mb-3 text-2xl font-semibold">Rubric Generator Chatbot!</h2></div>
-          <div>
+      <main className="flex min-h-screen">
+        <div className="sidebar">
+          <button className="new-chat-button">+ New Chat</button>
+          <div className="search-bar">
+            <input type="text" placeholder="Search rubrics..." />
+          </div>
+          <div className="chat-list">
+            <p>No saved rubrics.</p>
+          </div>
+        </div>
+        <div className="chat-window">
+          <div className="chat-header">
+            <h2 className="text-2xl font-semibold">Rubric Generator Chatbot</h2>
+          </div>
+          <div className="chat-messages">
             {messages.map((msg, index) => {
-              if (msg.role === 'function') {
-                const functionMessage = msg as ChatMessage;
+              if (msg.role === 'function' || msg.role === 'assistant') {
                 return (
-                    <div key={index} className={msg.role}>
-                      <div><FontAwesomeIcon icon={faRobot} className="message-icon" /></div>
-                      <span className="message-content">{functionMessage.content}</span>
-                    </div>
-                );
+                <div key={index} className={`message ${msg.role}`}>
+                  <FontAwesomeIcon icon={faRobot}  className="message-icon"/>
+                  <span className="message-content">{msg.content}</span>
+                </div>
+                )
               } else if (msg.role === 'user') {
                 return (
-                    <div key={index} className={msg.role}>
-                      <div><FontAwesomeIcon icon={faUser} className="message-icon" /></div>
+                    <div key={index} className={`message ${msg.role}`}>
+                      <FontAwesomeIcon icon={faUser}  className="message-icon"/>
                       <span className="message-content">{msg.content}</span>
                     </div>
-                );
-              } else if (msg.role === 'assistant') {
-                return (
-                    <div key={index} className={msg.role}>
-                      <div><FontAwesomeIcon icon={faRobot} className="message-icon" /></div>
-                      <span className="message-content">{msg.content}</span>
-                    </div>
-                );
+                )
               }
             })}
-            {loading && <div>Loading...</div>}
+            {loading && <div className="message loading">Loading...</div>}
           </div>
-          <form onSubmit={handleFormSubmit}>
-          <textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              disabled={loading}
-              placeholder="Type your message..."
-              style={{ width: '80%', minHeight: '40px', resize: 'vertical' }}
-          />
-            <button type="submit" disabled={loading} style={{ whiteSpace: 'nowrap' }}>
+          <form onSubmit={handleFormSubmit} className="chat-input">
+            <textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                disabled={loading}
+                placeholder="Type your message..."
+            />
+            <button type="submit" disabled={loading}>
               {loading ? 'Sending...' : 'Send'}
             </button>
           </form>
